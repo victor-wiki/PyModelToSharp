@@ -75,6 +75,7 @@ namespace PyModelToSharp
 
             this.txtMessage.Clear();
             this.cboPythonPath.Enabled = false;
+            this.btnConvert.Enabled = false;
 
             Task.Run(() => { this.Execute(); });
         }
@@ -120,9 +121,7 @@ namespace PyModelToSharp
 
                 using (Py.GIL())
                 {
-                    dynamic exportsd = Py.Import(@"exportsd");
-
-                    dynamic torch = Py.Import("torch");
+                    dynamic exportsd = Py.Import(@"exportsd");                   
 
                     this.AppendMessage("importing transformers...");
 
@@ -162,6 +161,10 @@ namespace PyModelToSharp
 
                 MessageBox.Show(ex.Message);
             }            
+            finally
+            {
+                this.btnConvert.Enabled = true;
+            }
         }
 
         private void AppendMessage(string message, bool isError = false)
